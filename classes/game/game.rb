@@ -12,10 +12,7 @@ class Game < Item
   private
 
   def can_be_archived?()
-    tab_date = @last_played_at.split('/')
-    year = Time.new.year - tab_date[0].to_i
-    return true if super(can_be_archived) && (year > 2)
-
-    false
+    years = Time.now.year - @last_played_at.year
+    super && (years > 2)
   end
 end
