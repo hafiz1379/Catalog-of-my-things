@@ -25,7 +25,7 @@ class Item
   # Method that adds author and updates the reference in the author object
   def add_author(author)
     @author = author
-    author.items.push(self) unless author.items.include?(self)
+    author.add_item(self) unless author.items.include?(self)
   end
 
   # Method that adds label and updates the reference in the label object

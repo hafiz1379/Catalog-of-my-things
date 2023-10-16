@@ -56,6 +56,7 @@ Comming Soon...
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 💻 Getting Started <a name="getting-started"></a>
+
 Catalog of my things is console app that will help you to keep a record of different types of things you own: books, music albums, movies, and games. Everything will be based on the UML class diagram presented below. The data will be stored in JSON files.
 Created using Ruby!
 
@@ -70,12 +71,14 @@ ruby -v
 If Ruby is not installed, you can download and install it from the official Ruby website.
 
 2. To get a local copy up and running, follow these steps.
-Choose the directory on your local machine where you want to copy project. For example:
+   Choose the directory on your local machine where you want to copy project. For example:
+
 ```
 
 cd /home/user/name-of-your-directory
 
 ```
+
 Clone the project using one of the options.
 Using HTTPS:
 
@@ -149,9 +152,8 @@ rspec
 
 👨🏼‍🚀 **John Palacios** 🪓
 
-- GitHub: []()
-- Twitter: []()
-- LinkedIn: []()
+- GitHub: [@rysthcraft](https://github.com/Rysth)
+- Linkedin: [@johnpalacios](https://www.linkedin.com/in/john-palacios-rysthcraft/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
