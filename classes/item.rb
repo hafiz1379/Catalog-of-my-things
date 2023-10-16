@@ -1,14 +1,15 @@
+require 'securerandom'
+
 class Item
   attr_accessor :genre, :author, :label, :publish_date
+  attr_reader :id, :archived
 
   def initialize(params = {})
-    self.class.id_counter = (self.class.id_counter || 0) + 1
+    @id = SecureRandom.hex(2)
     @genre = params[:genre]
     @author = params[:author]
     @label = params[:label]
     @publish_date = (Date.strptime(params[:publish_date], '%d-%m-%Y') if params[:publish_date])
-    private
-    @id = self.class.id_counter
     @archived = false
   end
 
@@ -36,7 +37,6 @@ class Item
 
   private
 
-  attr_reader :id, :archived
 
   def can_be_archived?
     Time.now.year - @publish_date.year > 10
