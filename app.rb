@@ -100,7 +100,7 @@ class App
 
   def list_all_games
     if @games.empty?
-      puts 'Please, create a GAME to continue. [Press ENTER to continue]'
+      puts 'Please, create a GAME. [Press ENTER to continue]'
       gets.chomp
     else
       puts 'Games'
@@ -121,6 +121,16 @@ class App
   end
 
   def list_all_authors
-    'mock'
+    if @authors.empty?
+      puts 'Please, create an AUTHOR. [Press ENTER to continue]'
+      gets.chomp
+    else
+      puts 'Authors'
+      puts '-----------------------------'
+      @authors.each do |author|
+        puts "ID: #{author.id}, Name: #{author.first_name} #{author.last_name}, Items(Quantity): #{author.items.size}"
+      end
+      puts '-----------------------------'
+    end
   end
 end
