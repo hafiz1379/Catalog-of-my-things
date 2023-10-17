@@ -2,6 +2,7 @@ require_relative 'classes/book'
 require_relative 'modules/book_module'
 require_relative 'classes/label'
 require_relative 'modules/label_module'
+require_relative 'classes/game/game'
 
 class App
   def initialize
@@ -87,7 +88,17 @@ class App
   end
 
   def add_game
-    'mock'
+    game_data = {}
+
+    print 'Does this game has multiplayer? (Y/N): '
+    game_data[:multiplayer] = gets.chomp.to_s.capitalize
+
+    print 'When was the last time you play it? (YY-MM-DD): '
+    game_data[:last_played_at] = gets.chomp
+
+    @games << Game.new(game_data[:multiplayer] == 'Y', game_data[:last_played_at])
+
+    puts 'Game created succesfully.'
   end
 
   def list_all_books
@@ -106,7 +117,7 @@ class App
       puts 'Games'
       puts '-----------------------------'
       @games.each do |game|
-        puts "ID: #{game.id}, Multiplayer: #{game.multiplayer}, Last Played: #{game.last_played_at}"
+        puts "ID: #{game.id}, Multiplayer: #{game.multiplayer}, Last Played At: #{game.last_played_at}"
       end
       puts '-----------------------------'
     end
