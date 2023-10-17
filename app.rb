@@ -187,12 +187,14 @@ class App
     puts '------------------'
     save_music_albums
   end
+
+  def list_all_books
+    BookModule.list_books(@books)
+  end
+  
+  def list_all_labels
+    LabelModule.list_labels(@labels)
+  end
 end
 
-def list_all_books
-  BookModule.list_books(@books)
-end
 
-def list_all_labels
-  LabelModule.list_labels(@labels)
-end
