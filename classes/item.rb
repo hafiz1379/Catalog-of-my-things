@@ -49,5 +49,4 @@ class Item
   def can_be_archived?
     (Date.today - @published_date).to_i >= 3650
   end
-
 end
