@@ -99,7 +99,17 @@ class App
   end
 
   def list_all_games
-    'mock'
+    if @games.empty?
+      puts 'Please, create a GAME to continue. [Press ENTER to continue]'
+      gets.chomp
+    else
+      puts 'Games'
+      puts '-----------------------------'
+      @games.each do |game|
+        puts "ID: #{game.id}, Multiplayer: #{game.multiplayer}, Last Played: #{game.last_played_at}"
+      end
+      puts '-----------------------------'
+    end
   end
 
   def list_all_labels
