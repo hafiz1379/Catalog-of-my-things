@@ -1,4 +1,10 @@
+require_relative 'genre'
+require_relative 'music_album'
+require 'date'
+
 class App
+  attr_accessor :music_albums, :genres
+
   def initialize
     @books = []
     @music_albums = []
