@@ -8,7 +8,7 @@ class Item
     @id = SecureRandom.hex(2)
     @author = params[:author]
     @label = params[:label]
-    @publish_date = (Date.strptime(params[:publish_date], '%d-%m-%Y') if params[:publish_date])
+    @publish_date = parse_date(params[:publish_date])
     @archived = false
     @published_date = published_date
     @archivedtoo = false
@@ -44,6 +44,17 @@ class Item
   end
 
   private
+
+  def parse_date(date_string)
+    return nil unless date_string
+
+    begin
+      Date.strptime(date_string, '%d-%m-%Y')
+    rescue Date::Error
+      # Silenciosamente establece la fecha de publicación a nil
+      nil
+    end
+  end
 
   def can_be_archived?
     Time.now.year - @publish_date.year > 10
