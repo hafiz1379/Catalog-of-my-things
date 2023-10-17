@@ -93,7 +93,7 @@ class App
     begin
       published_date = Date.parse(date_input)
       current_date = Date.today
-      (current_date - published_date).to_i
+      difference = (current_date - published_date).to_i / 365
 
       puts "The album was published #{difference} years ago"
     rescue ArgumentError
