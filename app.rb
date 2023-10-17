@@ -86,8 +86,24 @@ class App
       BookModule.add_book(@books, @genres, @authors, @labels)
     end
   end
+  
+  def list_all_genres
+    @genres.each_with_index do |genre, index|
+     puts "#{index + 1}. #{genre.name}"
+    end
+  end  
 
-  def add_music_album()
+  def list_all_music_albums
+    puts 'The list is empty, please create a Music Album!' if @music_albums.empty?
+    puts 'List of all music albums:'
+    @music_albums.each_with_index do |album, index|
+      next unless album.is_a?(MusicAlbum)
+      spotify_status = album.on_spotify ? 'Yes' : 'No'
+      puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archived}, Spotify: #{spotify_status}"
+    end
+  end
+
+  def add_music_album
     print 'Enter published date YYYY-MM-DD: '
     date_input = gets.chomp
     begin
@@ -118,27 +134,12 @@ def list_all_books
   BookModule.list_books(@books)
 end
 
-def list_all_music_albums()
-  puts 'List of all music albums:'
-  @music_albums.each_with_index do |album, index|
-    next unless album.is_a?(MusicAlbum)
-
-    puts "#{index + 1}. #(Published: #{album.published_date}, Archived: #{album.archived?})"
-  end
-end
-
 def list_all_games
   'mock'
 end
 
 def list_all_labels
   LabelModule.list_labels(@labels)
-end
-
-def list_all_genres()
-  @genres.each_with_index do |genre, index|
-    puts "#{index + 1}. #{genre.name}"
-  end
 end
 
 def list_all_authors

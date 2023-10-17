@@ -1,16 +1,20 @@
-require 'date'
 require 'securerandom'
 
 class Item
-  attr_accessor :author, :label, :publish_date
+  attr_accessor :author, :label, :publish_date, :published_date
   attr_reader :id, :archived, :genre
 
   def initialize(params = {})
     @id = SecureRandom.hex(2)
-    @genre = params[:genre]
     @author = params[:author]
     @label = params[:label]
     @publish_date = (Date.strptime(params[:publish_date], '%d-%m-%Y') if params[:publish_date])
+    @archived = false
+  end
+
+  def initialize(published_date:)
+    @id = id || Random.rand(1..1000)
+    @published_date = published_date
     @archived = false
   end
 
@@ -20,8 +24,6 @@ class Item
 
   # Method that adds genre and updates the reference in the genre object
   def genre=(new_genre)
-    return unless new_genre.is_a?(Genre)
-
     @genre = new_genre
     new_genre.add_item(self)
   end
@@ -43,4 +45,9 @@ class Item
   def can_be_archived?
     Time.now.year - @publish_date.year > 10
   end
+
+  def can_be_archived?
+    (Date.today - @published_date).to_i >= 3650
+  end
+
 end
