@@ -93,7 +93,7 @@ class App
     begin
       published_date = Date.parse(date_input)
       current_date = Date.today
-      difference = (current_date - published_date).to_i / 365
+      (current_date - published_date).to_i
 
       puts "The album was published #{difference} years ago"
     rescue ArgumentError
@@ -107,41 +107,40 @@ class App
     music_albums << music_album
 
     puts 'Music album added successfully!'
-    end
   end
+end
 
-  def add_game
-    'mock'
+def add_game
+  'mock'
+end
+
+def list_all_books
+  BookModule.list_books(@books)
+end
+
+def list_all_music_albums()
+  puts 'List of all music albums:'
+  @music_albums.each_with_index do |album, index|
+    next unless album.is_a?(MusicAlbum)
+
+    puts "#{index + 1}. #(Published: #{album.published_date}, Archived: #{album.archived?})"
   end
+end
 
-  def list_all_books
-    BookModule.list_books(@books)
+def list_all_games
+  'mock'
+end
+
+def list_all_labels
+  LabelModule.list_labels(@labels)
+end
+
+def list_all_genres()
+  @genres.each_with_index do |genre, index|
+    puts "#{index + 1}. #{genre.name}"
   end
+end
 
-  def list_all_music_albums()
-    puts 'List of all music albums:'
-    @music_albums.each_with_index do |album, index|
-      next unless album.is_a?(MusicAlbum)
-
-      puts "#{index + 1}. #(Published: #{album.published_date}, Archived: #{album.archived?})"
-    end
-  end
-
-  def list_all_games
-    'mock'
-  end
-
-  def list_all_labels
-    LabelModule.list_labels(@labels)
-  end
-
-  def list_all_genres()
-    @genres.each_with_index do |genre, index|
-      puts "#{index + 1}. #{genre.name}"
-    end
-  end
-
-  def list_all_authors
-    'mock'
-  end
+def list_all_authors
+  'mock'
 end
