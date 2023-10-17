@@ -189,11 +189,10 @@ class App
   save_music_albums
 end
 
-  def list_all_books
-    BookModule.list_books(@books)
-  end
+def list_all_books
+  BookModule.list_books(@books)
+end
 
-  def list_all_labels
-    LabelModule.list_labels(@labels)
-  end
+def list_all_labels
+  LabelModule.list_labels(@labels)
 end
