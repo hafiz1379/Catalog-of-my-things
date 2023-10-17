@@ -191,10 +191,8 @@ class App
   def list_all_books
     BookModule.list_books(@books)
   end
-  
+
   def list_all_labels
     LabelModule.list_labels(@labels)
   end
 end
-
-
