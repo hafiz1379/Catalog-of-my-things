@@ -1,30 +1,17 @@
-require_relative 'genre'
-require_relative 'music_album'
+require_relative 'classes/book'
+require_relative 'modules/book_module'
+require_relative 'classes/label'
+require_relative 'modules/label_module'
+require_relative 'classes/genre'
+require_relative 'classes/music_album'
 require 'date'
 
 class App
   attr_accessor :music_albums, :genres
 
   def initialize
-    @books = []
-    @music_albums = []
-    @games = []
-    @labels = []
-    @genres = []
-    @authors = []
-
-    @actions = {
-      1 => method(:add_book),
-      2 => method(:add_music_album),
-      3 => method(:add_game),
-      4 => method(:list_all_books),
-      5 => method(:list_all_music_albums),
-      6 => method(:list_all_games),
-      7 => method(:list_all_labels),
-      8 => method(:list_all_genres),
-      9 => method(:list_all_authors),
-      10 => method(:exit_app)
-    }
+    initialize_collections
+    initialize_actions
   end
 
   def run
@@ -41,6 +28,38 @@ class App
   end
 
   private
+
+  def initialize_collections
+    @books = []
+    @music_albums = []
+    @games = []
+    @labels = initialize_labels
+    @genres = []
+    @authors = []
+  end
+
+  def initialize_actions
+    @actions = {
+      1 => method(:add_book),
+      2 => method(:add_music_album),
+      3 => method(:add_game),
+      4 => method(:list_all_books),
+      5 => method(:list_all_music_albums),
+      6 => method(:list_all_games),
+      7 => method(:list_all_labels),
+      8 => method(:list_all_genres),
+      9 => method(:list_all_authors),
+      10 => method(:exit_app)
+    }
+  end
+
+  def initialize_labels
+    [
+      Label.new('1', 'New', 'Green'),
+      Label.new('2', 'Older', 'Yellow'),
+      Label.new('3', 'Gift', 'Red')
+    ]
+  end
 
   def display_menu
     puts '1. Add Book'
@@ -61,7 +80,11 @@ class App
   end
 
   def add_book
-    'mock'
+    if @labels.empty?
+      puts 'No labels available. Please add a label first.'
+    else
+      BookModule.add_book(@books, @genres, @authors, @labels)
+    end
   end
 
   def add_music_album()
@@ -92,7 +115,7 @@ class App
   end
 
   def list_all_books
-    'mock'
+    BookModule.list_books(@books)
   end
 
   def list_all_music_albums()
@@ -109,7 +132,7 @@ class App
   end
 
   def list_all_labels
-    'mock'
+    LabelModule.list_labels(@labels)
   end
 
   def list_all_genres()
