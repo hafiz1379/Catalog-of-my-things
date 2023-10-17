@@ -1,5 +1,6 @@
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 2.X
   Exclude:
     - "Guardfile"
     - "Rakefile"
