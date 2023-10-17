@@ -3,11 +3,21 @@ module GameModule
   def self.add_game(collection)
     game_data = {}
 
-    print 'Does this game has multiplayer? (Y/N): '
-    game_data[:multiplayer] = gets.chomp.to_s.capitalize
+    loop do
+      print 'Does this game have multiplayer? (Y/N): '
+      game_data[:multiplayer] = gets.chomp.to_s.capitalize
+      break if %w[Y N].include?(game_data[:multiplayer])
 
-    print 'When was the last time you play it? (YY-MM-DD): '
-    game_data[:last_played_at] = gets.chomp
+      puts 'Invalid input. Please enter Y or N.'
+    end
+
+    loop do
+      print 'When was the last time you played it? (YYYY-MM-DD): '
+      game_data[:last_played_at] = gets.chomp
+      break if /\d{4}-\d{2}-\d{2}/.match?(game_data[:last_played_at])
+
+      puts 'Invalid date format. Please enter YYYY-MM-DD.'
+    end
 
     collection << Game.new(game_data[:multiplayer] == 'Y', game_data[:last_played_at])
 
