@@ -116,7 +116,6 @@ class App
 
   def exit_app
     puts 'Goodbye!'
-    save_music_albums
     save_genres
     exit
   end
@@ -172,6 +171,7 @@ class App
     puts 'Music album added successfully!'
     puts '------------------'
   end
+  save_music_albums
 end
 
 def add_game
