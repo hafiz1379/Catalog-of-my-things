@@ -19,6 +19,7 @@ module GameModule
     end
 
     collection << Game.new(game_data[:multiplayer] == 'Y', game_data[:last_played_at])
+    write_games_to_json(collection)
 
     puts 'Game created succesfully. [Press ENTER to continue]'
     gets.chomp
@@ -32,9 +33,33 @@ module GameModule
       puts 'Games'
       puts '-----------------------------'
       collection.each do |game|
-        puts "ID: #{game.id}, Multiplayer: #{game.multiplayer}, Last Played At: #{game.last_played_at}"
+        puts "Multiplayer: #{game.multiplayer}, Last Played At: #{game.last_played_at}"
       end
       puts '-----------------------------'
     end
+  end
+
+  def self.load_games_from_json(collection, filename = 'json/games.json')
+    return unless File.exist?(filename)
+
+    data = JSON.parse(File.read(filename))
+    data.each do |game_data|
+      game = Game.new(
+        game_data['multiplayer'],
+        game_data['last_played_at']
+      )
+      collection << game
+    end
+  end
+
+  def self.write_games_to_json(collection, filename = 'json/games.json')
+    games_data = collection.map do |game|
+      {
+        'multiplayer' => game.multiplayer,
+        'last_played_at' => game.last_played_at
+      }
+    end
+
+    File.write(filename, JSON.pretty_generate(games_data))
   end
 end

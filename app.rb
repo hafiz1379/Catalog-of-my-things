@@ -17,6 +17,7 @@ class App
     initialize_collections
     initialize_actions
     load_books_from_json
+    GameModule.load_games_from_json(@games)
   end
 
   def run
@@ -133,19 +134,19 @@ class App
       puts "#{index + 1}. #{genre.name}"
     end
   end
-  
+
   def add_game
     GameModule.add_game(@games)
   end
-  
+
   def list_all_games
     GameModule.list_all_games(@games)
   end
-  
-   def list_all_authors
+
+  def list_all_authors
     AuthorModule.list_all_authors(@authors)
   end
- 
+
   def list_all_music_albums
     puts 'The list is empty, please create a Music Album!' if @music_albums.empty?
     puts 'List of all music albums:'
@@ -178,15 +179,12 @@ class App
 
     puts 'Music album added successfully!'
   end
-  
+
   def list_all_books
     BookModule.list_books(@books)
   end
-  
+
   def list_all_labels
     LabelModule.list_labels(@labels)
   end
 end
-
-
-
