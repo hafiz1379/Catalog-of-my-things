@@ -185,8 +185,8 @@ class App
 
     puts 'Music album added successfully!'
     puts '------------------'
+    save_music_albums
   end
-  save_music_albums
 end
 
 def list_all_books
