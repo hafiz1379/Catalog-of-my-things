@@ -95,8 +95,13 @@ class App
     'mock'
   end
 
-  def list_all_music_albums
-    'mock'
+  def list_all_music_albums()
+    puts 'List of all music albums:'
+    @music_albums.each_with_index do |album, index|
+      next unless album.is_a?(MusicAlbum)
+
+      puts "#{index + 1}. #(Published: #{album.published_date}, Archived: #{album.archived?})"
+    end
   end
 
   def list_all_games
