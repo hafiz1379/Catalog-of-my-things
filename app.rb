@@ -4,6 +4,7 @@ require_relative 'classes/label'
 require_relative 'modules/label_module'
 require_relative 'classes/game/game'
 require_relative 'modules/game_module'
+require_relative 'modules/author_module'
 
 class App
   def initialize
@@ -113,16 +114,6 @@ class App
   end
 
   def list_all_authors
-    if @authors.empty?
-      puts 'Please, create an AUTHOR. [Press ENTER to continue]'
-      gets.chomp
-    else
-      puts 'Authors'
-      puts '-----------------------------'
-      @authors.each do |author|
-        puts "ID: #{author.id}, Name: #{author.first_name} #{author.last_name}, Items(Quantity): #{author.items.size}"
-      end
-      puts '-----------------------------'
-    end
+    AuthorModule.list_all_authors(@authors)
   end
 end
