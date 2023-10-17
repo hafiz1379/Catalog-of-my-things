@@ -20,6 +20,7 @@ class Item
   # Method that adds genre and updates the reference in the genre object
   def genre=(new_genre)
     return unless new_genre.is_a?(Genre)
+
     @genre = new_genre
     new_genre.add_item(self)
   end
