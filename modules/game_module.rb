@@ -1,5 +1,4 @@
 module GameModule
-
   def self.add_game(collection)
     game_data = {}
 
