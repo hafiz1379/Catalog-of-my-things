@@ -7,7 +7,8 @@ require_relative 'modules/game_module'
 require_relative 'modules/author_module'
 require_relative 'classes/genre'
 require_relative 'classes/music_album'
-require 'json'
+require_relative 'classes/music/load_music_genre'
+require_relative 'classes/music/save_music_genre'
 require 'date'
 
 class App
@@ -77,6 +78,8 @@ class App
     @labels = initialize_labels
     @genres = []
     @authors = []
+    @music_albums = load_music_albums
+    @genres = load_genre
   end
 
   def initialize_actions
@@ -117,6 +120,7 @@ class App
 
   def exit_app
     puts 'Goodbye!'
+    save_genres
     exit
   end
 
@@ -130,9 +134,11 @@ class App
   end
 
   def list_all_genres
+    puts 'The list is empty, please create a Genre!' if @genres.empty?
     @genres.each_with_index do |genre, index|
       puts "#{index + 1}. #{genre.name}"
     end
+    puts '------------------'
   end
 
   def add_game
@@ -156,7 +162,7 @@ class App
       spotify_status = album.on_spotify ? 'Yes' : 'No'
       puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
     end
-    puts
+    puts '------------------'
   end
 
   def add_music_album
@@ -178,13 +184,15 @@ class App
     music_albums << music_album
 
     puts 'Music album added successfully!'
+    puts '------------------'
   end
+  save_music_albums
+end
 
-  def list_all_books
-    BookModule.list_books(@books)
-  end
+def list_all_books
+  BookModule.list_books(@books)
+end
 
-  def list_all_labels
-    LabelModule.list_labels(@labels)
-  end
+def list_all_labels
+  LabelModule.list_labels(@labels)
 end
