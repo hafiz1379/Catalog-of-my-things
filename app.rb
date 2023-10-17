@@ -100,8 +100,9 @@ class App
       next unless album.is_a?(MusicAlbum)
 
       spotify_status = album.on_spotify ? 'Yes' : 'No'
-      puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archived}, Spotify: #{spotify_status}"
+      puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
     end
+    puts
   end
 
   def add_music_album
