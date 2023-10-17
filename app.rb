@@ -2,6 +2,9 @@ require_relative 'classes/book'
 require_relative 'modules/book_module'
 require_relative 'classes/label'
 require_relative 'modules/label_module'
+require_relative 'classes/game/game'
+require_relative 'modules/game_module'
+require_relative 'modules/author_module'
 require_relative 'classes/genre'
 require_relative 'classes/music_album'
 require 'json'
@@ -14,6 +17,7 @@ class App
     initialize_collections
     initialize_actions
     load_books_from_json
+    GameModule.load_games_from_json(@games)
   end
 
   def run
@@ -131,6 +135,18 @@ class App
     end
   end
 
+  def add_game
+    GameModule.add_game(@games)
+  end
+
+  def list_all_games
+    GameModule.list_all_games(@games)
+  end
+
+  def list_all_authors
+    AuthorModule.list_all_authors(@authors)
+  end
+
   def list_all_music_albums
     puts 'The list is empty, please create a Music Album!' if @music_albums.empty?
     puts 'List of all music albums:'
@@ -158,30 +174,17 @@ class App
 
     print 'Is it on Spotify? (true/false): '
     on_spotify = gets.chomp.downcase == 'true'
-
     music_album = MusicAlbum.new(published_date: published_date, on_spotify: on_spotify)
     music_albums << music_album
 
     puts 'Music album added successfully!'
   end
-end
 
-def add_game
-  'mock'
-end
+  def list_all_books
+    BookModule.list_books(@books)
+  end
 
-def list_all_books
-  BookModule.list_books(@books)
-end
-
-def list_all_games
-  'mock'
-end
-
-def list_all_labels
-  LabelModule.list_labels(@labels)
-end
-
-def list_all_authors
-  'mock'
+  def list_all_labels
+    LabelModule.list_labels(@labels)
+  end
 end
