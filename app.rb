@@ -5,11 +5,18 @@ require_relative 'modules/label_module'
 require_relative 'classes/game/game'
 require_relative 'modules/game_module'
 require_relative 'modules/author_module'
+require_relative 'classes/genre'
+require_relative 'classes/music_album'
+require 'json'
+require 'date'
 
 class App
+  attr_accessor :music_albums, :genres
+
   def initialize
     initialize_collections
     initialize_actions
+    load_books_from_json
   end
 
   def run
@@ -25,7 +32,42 @@ class App
     end
   end
 
+  def find_label_by_title(title)
+    @labels.find { |label| label.title == title }
+  end
+
   private
+
+  def load_books_from_json(filename = 'books.json')
+    return unless File.exist?(filename)
+
+    data = JSON.parse(File.read(filename))
+    data.each do |book_data|
+      book = Book.new(
+        id: book_data['id'],
+        title: book_data['title'], # Asegúrate de que esto esté en tus datos JSON
+        publisher: book_data['publisher'],
+        cover_state: book_data['cover_state'],
+        publish_date: book_data['publish_date'],
+        label: find_label_by_title(book_data['label'])
+      )
+      @books << book
+    end
+  end
+
+  def write_books_to_json(filename = 'books.json')
+    books_data = @books.map do |book|
+      {
+        'id' => book.id,
+        'publisher' => book.publisher,
+        'cover_state' => book.cover_state,
+        'publish_date' => book.publish_date,
+        'label' => book.label&.title
+      }
+    end
+
+    File.write(filename, JSON.pretty_generate(books_data))
+  end
 
   def initialize_collections
     @books = []
@@ -82,38 +124,69 @@ class App
       puts 'No labels available. Please add a label first.'
     else
       BookModule.add_book(@books, @genres, @authors, @labels)
+      write_books_to_json
     end
   end
 
-  def add_music_album
-    'mock'
+  def list_all_genres
+    @genres.each_with_index do |genre, index|
+      puts "#{index + 1}. #{genre.name}"
+    end
   end
-
+  
   def add_game
     GameModule.add_game(@games)
   end
-
-  def list_all_books
-    BookModule.list_books(@books)
-  end
-
-  def list_all_music_albums
-    'mock'
-  end
-
+  
   def list_all_games
     GameModule.list_all_games(@games)
   end
+  
+   def list_all_authors
+    AuthorModule.list_all_authors(@authors)
+  end
+ 
+  def list_all_music_albums
+    puts 'The list is empty, please create a Music Album!' if @music_albums.empty?
+    puts 'List of all music albums:'
+    @music_albums.each_with_index do |album, index|
+      next unless album.is_a?(MusicAlbum)
 
+      spotify_status = album.on_spotify ? 'Yes' : 'No'
+      puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
+    end
+    puts
+  end
+
+  def add_music_album
+    print 'Enter published date YYYY-MM-DD: '
+    date_input = gets.chomp
+    begin
+      published_date = Date.parse(date_input)
+      current_date = Date.today
+      difference = (current_date - published_date).to_i / 365
+
+      puts "The album was published #{difference} years ago"
+    rescue ArgumentError
+      puts 'invalid date format. Please enter the date in YYYY-MM-DD format'
+    end
+
+    print 'Is it on Spotify? (true/false): '
+    on_spotify = gets.chomp.downcase == 'true'
+    music_album = MusicAlbum.new(published_date: published_date, on_spotify: on_spotify)
+    music_albums << music_album
+
+    puts 'Music album added successfully!'
+  end
+  
+  def list_all_books
+    BookModule.list_books(@books)
+  end
+  
   def list_all_labels
     LabelModule.list_labels(@labels)
   end
-
-  def list_all_genres
-    'mock'
-  end
-
-  def list_all_authors
-    AuthorModule.list_all_authors(@authors)
-  end
 end
+
+
+

@@ -1,27 +1,34 @@
-require 'date'
 require 'securerandom'
 
 class Item
-  attr_accessor :genre, :author, :label, :publish_date
-  attr_reader :id, :archived
+  attr_accessor :author, :label, :publish_date, :published_date
+  attr_reader :id, :archived, :genre, :archivedtoo
 
   def initialize(params = {})
     @id = SecureRandom.hex(2)
-    @genre = params[:genre]
     @author = params[:author]
     @label = params[:label]
-    @publish_date = (Date.strptime(params[:publish_date], '%d-%m-%Y') if params[:publish_date])
+    @publish_date = parse_date(params[:publish_date])
+    @archived = false
+    @published_date = published_date
+    @archivedtoo = false
+  end
+
+  def initializetoo(published_date:)
+    @id = id || Random.rand(1..1000)
+    @published_date = published_date
     @archived = false
   end
 
   def move_to_archive
     @archived = true if can_be_archived?
+    @archivedtoo = true if can_be_archivedtoo?
   end
 
   # Method that adds genre and updates the reference in the genre object
-  def add_genre(genre)
-    @genre = genre
-    genre.items.push(self) unless genre.items.include?(self)
+  def genre=(new_genre)
+    @genre = new_genre
+    new_genre.add_item(self)
   end
 
   # Method that adds author and updates the reference in the author object
@@ -38,7 +45,22 @@ class Item
 
   private
 
+  def parse_date(date_string)
+    return nil unless date_string
+
+    begin
+      Date.strptime(date_string, '%d-%m-%Y')
+    rescue Date::Error
+      # Silenciosamente establece la fecha de publicación a nil
+      nil
+    end
+  end
+
   def can_be_archived?
     Time.now.year - @publish_date.year > 10
+  end
+
+  def can_be_archivedtoo?
+    (Date.today - @published_date).to_i >= 3650
   end
 end
