@@ -2,7 +2,7 @@ require 'securerandom'
 
 class Item
   attr_accessor :genre, :author, :label, :publish_date
-  attr_reader :id, :archived
+  attr_reader :id, :archived, :genre
 
   def initialize(params = {})
     @id = SecureRandom.hex(2)
@@ -18,9 +18,10 @@ class Item
   end
 
   # Method that adds genre and updates the reference in the genre object
-  def add_genre(genre)
-    @genre = genre
-    genre.items.push(self) unless genre.items.include?(self)
+  def genre=(new_genre)
+    return unless new_genre.is_a?(Genre)
+    @genre = new_genre
+    new_genre.add_item(self)
   end
 
   # Method that adds author and updates the reference in the author object
