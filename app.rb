@@ -4,6 +4,7 @@ require_relative 'classes/label'
 require_relative 'modules/label_module'
 require_relative 'classes/genre'
 require_relative 'classes/music_album'
+require 'json'
 require 'date'
 
 class App
@@ -12,6 +13,7 @@ class App
   def initialize
     initialize_collections
     initialize_actions
+    load_books_from_json
   end
 
   def run
@@ -27,7 +29,42 @@ class App
     end
   end
 
+  def find_label_by_title(title)
+    @labels.find { |label| label.title == title }
+  end
+
   private
+
+  def load_books_from_json(filename = 'books.json')
+    return unless File.exist?(filename)
+
+    data = JSON.parse(File.read(filename))
+    data.each do |book_data|
+      book = Book.new(
+        id: book_data['id'],
+        title: book_data['title'], # Asegúrate de que esto esté en tus datos JSON
+        publisher: book_data['publisher'],
+        cover_state: book_data['cover_state'],
+        publish_date: book_data['publish_date'],
+        label: find_label_by_title(book_data['label'])
+      )
+      @books << book
+    end
+  end
+
+  def write_books_to_json(filename = 'books.json')
+    books_data = @books.map do |book|
+      {
+        'id' => book.id,
+        'publisher' => book.publisher,
+        'cover_state' => book.cover_state,
+        'publish_date' => book.publish_date,
+        'label' => book.label&.title
+      }
+    end
+
+    File.write(filename, JSON.pretty_generate(books_data))
+  end
 
   def initialize_collections
     @books = []
@@ -84,6 +121,7 @@ class App
       puts 'No labels available. Please add a label first.'
     else
       BookModule.add_book(@books, @genres, @authors, @labels)
+      write_books_to_json
     end
   end
 
