@@ -1,7 +1,7 @@
 module BookModule
   def self.list_books(books)
-    puts 'List of Books:'
-    puts '-----------------------------'
+    puts 'List of Books:'.bold.black.on_light_magenta
+    puts '-----------------------------'.black.on_light_magenta
     books.each_with_index do |book, index|
       label_title = book.label ? book.label.title : 'N/A'
       puts "#{index + 1}. ID: #{book.id}, " \
@@ -9,7 +9,7 @@ module BookModule
            "Cover State: #{book.cover_state}, " \
            "Label: #{label_title}"
     end
-    puts '-----------------------------'
+    puts '-----------------------------'.black.on_light_magenta
     puts '[Press ENTER to continue]'
     gets.chomp
   end
