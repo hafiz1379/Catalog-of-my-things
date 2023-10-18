@@ -40,7 +40,7 @@ class App
 
   private
 
-  def load_books_from_json(filename = 'books.json')
+  def load_books_from_json(filename = 'json/books.json')
     return unless File.exist?(filename)
 
     data = JSON.parse(File.read(filename))
@@ -57,7 +57,7 @@ class App
     end
   end
 
-  def write_books_to_json(filename = 'books.json')
+  def write_books_to_json(filename = 'json/books.json')
     books_data = @books.map do |book|
       {
         'id' => book.id,
@@ -155,14 +155,20 @@ class App
 
   def list_all_music_albums
     puts 'The list is empty, please create a Music Album!' if @music_albums.empty?
-    puts 'List of all music albums:'
-    @music_albums.each_with_index do |album, index|
-      next unless album.is_a?(MusicAlbum)
 
-      spotify_status = album.on_spotify ? 'Yes' : 'No'
-      puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
+    if !@music_albums.empty?
+      puts 'List of all music albums:'
+      puts '-----------------------------'
+      @music_albums.each_with_index do |album, index|
+        next unless album.is_a?(MusicAlbum)
+  
+        spotify_status = album.on_spotify ? 'Yes' : 'No'
+        puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
+      end
+      puts '-----------------------------'
+      puts '[Press ENTER to continue]'
+      gets.chomp
     end
-    puts '------------------'
   end
 
   def add_music_album
