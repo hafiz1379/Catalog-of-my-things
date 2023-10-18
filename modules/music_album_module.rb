@@ -26,15 +26,15 @@ module MusicAlbumModule
     puts 'The list is empty, please create a Music Album!' if collection.empty?
 
     unless collection.empty?
-      puts 'List of all music albums:'
-      puts '-----------------------------'
+      puts 'List of all music albums:'.bold.black.on_light_yellow
+      puts '-----------------------------'.black.on_light_yellow
       collection.each_with_index do |album, index|
         next unless album.is_a?(MusicAlbum)
 
         spotify_status = album.on_spotify ? 'Yes' : 'No'
         puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
       end
-      puts '-----------------------------'
+      puts '-----------------------------'.black.on_light_yellow
       puts '[Press ENTER to continue]'
       gets.chomp
     end
