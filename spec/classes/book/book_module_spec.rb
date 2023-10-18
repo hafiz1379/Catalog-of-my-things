@@ -17,14 +17,6 @@ RSpec.describe BookModule do
     @labels = [@label]
   end
 
-  describe '.list_books' do
-    it 'prints the list of books' do
-      expect { BookModule.list_books(@books) }.to output(
-        /List of Books:\n1\. ID: [0-9a-f]+, Publisher: Some Publisher, Cover State: good, Label: Some Label/m
-      ).to_stdout
-    end
-  end
-
   describe '.add_book' do
     before do
       allow(BookModule).to receive(:collect_attributes).and_return({

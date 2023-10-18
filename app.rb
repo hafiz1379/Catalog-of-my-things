@@ -9,7 +9,10 @@ require_relative 'classes/genre'
 require_relative 'classes/music_album'
 require_relative 'classes/music/load_music_genre'
 require_relative 'classes/music/save_music_genre'
+require_relative 'modules/music_album_module'
+require_relative 'modules/commands_module'
 require 'date'
+require 'colorize'
 
 class App
   attr_accessor :music_albums, :genres
@@ -23,6 +26,7 @@ class App
 
   def run
     loop do
+      render_ascii_art
       display_menu
       choice = gets.chomp.to_i
       action = @actions[choice]
@@ -40,7 +44,7 @@ class App
 
   private
 
-  def load_books_from_json(filename = 'books.json')
+  def load_books_from_json(filename = 'json/books.json')
     return unless File.exist?(filename)
 
     data = JSON.parse(File.read(filename))
@@ -57,7 +61,7 @@ class App
     end
   end
 
-  def write_books_to_json(filename = 'books.json')
+  def write_books_to_json(filename = 'json/books.json')
     books_data = @books.map do |book|
       {
         'id' => book.id,
@@ -73,7 +77,6 @@ class App
 
   def initialize_collections
     @books = []
-    @music_albums = []
     @games = []
     @labels = initialize_labels
     @genres = []
@@ -101,25 +104,40 @@ class App
     [
       Label.new('1', 'New', 'Green'),
       Label.new('2', 'Older', 'Yellow'),
-      Label.new('3', 'Gift', 'Red')
+      Label.new('3', 'Gift', 'magenta')
     ]
   end
 
+  def render_ascii_art
+    puts '
+    ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗
+    ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
+    ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗
+    ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝
+    ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗    ██╗██╗██╗
+     ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝    ╚═╝╚═╝╚═╝
+
+    '.green
+    puts 'To start, pick an option from the list below (1-10):'.bold
+    puts ''
+  end
+
   def display_menu
-    puts '1. Add Book'
-    puts '2. Add Music Album'
-    puts '3. Add Game'
-    puts '4. List All Books'
-    puts '5. List All Music Albums'
-    puts '6. List All Games'
-    puts '7. List All Labels'
-    puts '8. List All Genres'
-    puts '9. List All Authors'
-    puts '10. Exit'
+    puts '1. Add Book               .'.bold.black.on_light_magenta
+    puts '2. Add Music Album        .'.bold.black.on_light_yellow
+    puts '3. Add Game               .'.bold.black.on_light_cyan
+    puts '4. List All Books         .'.bold.black.on_light_magenta
+    puts '5. List All Music Albums  .'.bold.black.on_light_yellow
+    puts '6. List All Games         .'.bold.black.on_light_cyan
+    puts '7. List All Labels        .'.bold.black.on_light_magenta
+    puts '8. List All Genres        .'.bold.black.on_light_yellow
+    puts '9. List All Authors       .'.bold.black.on_light_cyan
+    puts '10. Exit -----------------.'.bold.white.on_black
   end
 
   def exit_app
-    puts 'Goodbye!'
+    puts 'Thanks for using the app!       '.bold.white.on_green
+    puts 'Developed by: Hafiz - Jhon - JD '.bold.white.on_green
     save_genres
     exit
   end
@@ -135,10 +153,17 @@ class App
 
   def list_all_genres
     puts 'The list is empty, please create a Genre!' if @genres.empty?
+
+    return if @genres.empty?
+
+    puts 'List of all genres:'.bold.black.on_light_yellow
+    puts '-----------------------------'.black.on_light_yellow
     @genres.each_with_index do |genre, index|
       puts "#{index + 1}. #{genre.name}"
     end
-    puts '------------------'
+    puts '-----------------------------'.black.on_light_yellow
+    puts '[Press ENTER to continue]'
+    gets.chomp
   end
 
   def add_game
@@ -146,53 +171,37 @@ class App
   end
 
   def list_all_games
+    Commands.clear_screen
     GameModule.list_all_games(@games)
+    Commands.clear_screen
   end
 
   def list_all_authors
+    Commands.clear_screen
     AuthorModule.list_all_authors(@authors)
+    Commands.clear_screen
   end
 
   def list_all_music_albums
-    puts 'The list is empty, please create a Music Album!' if @music_albums.empty?
-    puts 'List of all music albums:'
-    @music_albums.each_with_index do |album, index|
-      next unless album.is_a?(MusicAlbum)
-
-      spotify_status = album.on_spotify ? 'Yes' : 'No'
-      puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
-    end
-    puts '------------------'
+    Commands.clear_screen
+    MusicAlbumModule.list_all_music_albums(@music_albums)
+    Commands.clear_screen
   end
 
   def add_music_album
-    print 'Enter published date YYYY-MM-DD: '
-    date_input = gets.chomp
-    begin
-      published_date = Date.parse(date_input)
-      current_date = Date.today
-      difference = (current_date - published_date).to_i / 365
-
-      puts "The album was published #{difference} years ago"
-    rescue ArgumentError
-      puts 'invalid date format. Please enter the date in YYYY-MM-DD format'
-    end
-
-    print 'Is it on Spotify? (true/false): '
-    on_spotify = gets.chomp.downcase == 'true'
-    music_album = MusicAlbum.new(published_date: published_date, on_spotify: on_spotify)
-    music_albums << music_album
-
-    puts 'Music album added successfully!'
-    puts '------------------'
+    MusicAlbumModule.add_music_album(@music_albums)
     save_music_albums
   end
 
   def list_all_books
+    Commands.clear_screen
     BookModule.list_books(@books)
+    Commands.clear_screen
   end
 
   def list_all_labels
+    Commands.clear_screen
     LabelModule.list_labels(@labels)
+    Commands.clear_screen
   end
 end

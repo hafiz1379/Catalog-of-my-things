@@ -6,8 +6,7 @@ require 'date'
 def load_music_albums
   stored_music_albums = begin
     JSON.parse(File.read('json/music_albums.json'))
-  rescue StandardError => e
-    puts "Error reading 'music_albums.json': #{e.message}"
+  rescue StandardError
     []
   end
   music_albums = []
@@ -21,8 +20,7 @@ end
 def load_genre
   stored_genre = begin
     JSON.parse(File.read('json/genres.json'))
-  rescue StandardError => e
-    puts "Error reading 'genres.json': #{e.message}"
+  rescue StandardError
     []
   end
   genres = []

@@ -28,15 +28,16 @@ module GameModule
   def self.list_all_games(collection)
     if collection.empty?
       puts 'Please, create a GAME. [Press ENTER to continue]'
-      gets.chomp
     else
-      puts 'Games'
-      puts '-----------------------------'
-      collection.each do |game|
-        puts "Multiplayer: #{game.multiplayer}, Last Played At: #{game.last_played_at}"
+      puts 'List of Games:'.bold.black.on_light_cyan
+      puts '-----------------------------'.black.on_light_cyan
+      collection.each_with_index do |game, idx|
+        puts "#{idx + 1}. Multiplayer: #{game.multiplayer}, Last Played At: #{game.last_played_at}"
       end
-      puts '-----------------------------'
+      puts '-----------------------------'.black.on_light_cyan
+      puts '[Press ENTER to continue]'
     end
+    gets.chomp
   end
 
   def self.load_games_from_json(collection, filename = 'json/games.json')
