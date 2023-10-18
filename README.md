@@ -1,6 +1,7 @@
 <a name="readme-top"></a>
 
 <div align="center">
+  <img src="assets\catalog_of_my_things_logo.png" alt="logo" width="70%"  height="auto" />
   <h3><b>Catalog Of My Things - Ruby Capstone</b></h3>
 </div>
 
@@ -51,7 +52,7 @@
 
 ## 🚀 Video Demo <a name="video-demo"></a>
 
-Comming Soon...
+Link : [Video Presentation](https://drive.google.com/file/d/1rHeHR-GSEvMwF4JfDjMF8RqTOvctFEyk/view?usp=sharing)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
