@@ -12,6 +12,7 @@ require_relative 'classes/music/save_music_genre'
 require_relative 'modules/music_album_module'
 require_relative 'modules/commands_module'
 require 'date'
+require 'colorize'
 
 class App
   attr_accessor :music_albums, :genres
@@ -25,6 +26,7 @@ class App
 
   def run
     loop do
+      render_ascii_art
       display_menu
       choice = gets.chomp.to_i
       action = @actions[choice]
@@ -102,25 +104,40 @@ class App
     [
       Label.new('1', 'New', 'Green'),
       Label.new('2', 'Older', 'Yellow'),
-      Label.new('3', 'Gift', 'Red')
+      Label.new('3', 'Gift', 'magenta')
     ]
   end
+  
+  def render_ascii_art
+    puts '
+    ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗             
+    ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝             
+    ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗               
+    ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝               
+    ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗    ██╗██╗██╗
+     ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝    ╚═╝╚═╝╚═╝
+                                                                               
+    '.green
+    puts 'To start, pick an option from the list below (1-10):'.bold
+    puts ''
+  end
 
-  def display_menu
-    puts '1. Add Book'
-    puts '2. Add Music Album'
-    puts '3. Add Game'
-    puts '4. List All Books'
-    puts '5. List All Music Albums'
-    puts '6. List All Games'
-    puts '7. List All Labels'
-    puts '8. List All Genres'
-    puts '9. List All Authors'
-    puts '10. Exit'
+  def display_menu    
+    puts '1. Add Book               .'.bold.black.on_light_magenta
+    puts '2. Add Music Album        .'.bold.black.on_light_yellow
+    puts '3. Add Game               .'.bold.black.on_light_cyan
+    puts '4. List All Books         .'.bold.black.on_light_magenta
+    puts '5. List All Music Albums  .'.bold.black.on_light_yellow
+    puts '6. List All Games         .'.bold.black.on_light_cyan
+    puts '7. List All Labels        .'.bold.black.on_light_magenta
+    puts '8. List All Genres        .'.bold.black.on_light_yellow
+    puts '9. List All Authors       .'.bold.black.on_light_cyan
+    puts '10. Exit -----------------.'.bold.white.on_black
   end
 
   def exit_app
-    puts 'Goodbye!'
+    puts 'Thanks for using the app!       '.bold.white.on_green
+    puts 'Developed by: Hafiz - Jhon - JD '.bold.white.on_green
     save_genres
     exit
   end
@@ -138,11 +155,12 @@ class App
     puts 'The list is empty, please create a Genre!' if @genres.empty?
 
     unless @genres.empty?
-      puts '-----------------------------'
+      puts 'List of all genres:'.bold.black.on_light_yellow
+      puts '-----------------------------'.black.on_light_yellow
       @genres.each_with_index do |genre, index|
         puts "#{index + 1}. #{genre.name}"
       end
-      puts '-----------------------------'
+      puts '-----------------------------'.black.on_light_yellow
       puts '[Press ENTER to continue]'
       gets.chomp
     end
