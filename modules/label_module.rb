@@ -21,6 +21,7 @@ module LabelModule
         end
       end
     end
+    puts '------------------'
   end
 
   def self.add_label(labels)
