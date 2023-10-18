@@ -43,18 +43,18 @@ module GameModule
   def self.load_games_from_json(collection, filename = 'json/games.json')
     return unless File.exist?(filename)
 
-    file = File.read(filename) 
-    unless file.nil? || file.empty?
-      data = JSON.parse(file)
-      unless data.empty?
-        data.each do |game_data|
-          game = Game.new(
-            game_data['multiplayer'],
-            game_data['last_played_at']
-          )
-          collection << game
-        end
-      end
+    file = File.read(filename)
+    return if file.nil? || file.empty?
+
+    data = JSON.parse(file)
+    return if data.empty?
+
+    data.each do |game_data|
+      game = Game.new(
+        game_data['multiplayer'],
+        game_data['last_played_at']
+      )
+      collection << game
     end
   end
 

@@ -2,21 +2,20 @@ module BookModule
   def self.list_books(books)
     if books.empty?
       puts 'Please, create a BOOK. [Press ENTER to continue]'
-      gets.chomp
     else
       puts 'List of Books:'.bold.black.on_light_magenta
       puts '-----------------------------'.black.on_light_magenta
       books.each_with_index do |book, index|
         label_title = book.label ? book.label.title : 'N/A'
         puts "#{index + 1}. ID: #{book.id}, " \
-            "Publisher: #{book.publisher}, " \
-            "Cover State: #{book.cover_state}, " \
-            "Label: #{label_title}"
+             "Publisher: #{book.publisher}, " \
+             "Cover State: #{book.cover_state}, " \
+             "Label: #{label_title}"
       end
       puts '-----------------------------'.black.on_light_magenta
       puts '[Press ENTER to continue]'
-      gets.chomp
-    end 
+    end
+    gets.chomp
   end
 
   def self.add_book(books, _genres, _authors, labels)

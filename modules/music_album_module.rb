@@ -22,21 +22,20 @@ module MusicAlbumModule
   end
 
   def self.list_all_music_albums(collection)
-   if collection.empty?
-    puts 'Please, create a MUSIC ALBUM. [Press ENTER to continue]'
-    gets.chomp
-   else
-    puts 'List of Music Albums:'.bold.black.on_light_yellow
-    puts '-----------------------------'.black.on_light_yellow
-    collection.each_with_index do |album, index|
-      next unless album.is_a?(MusicAlbum)
+    if collection.empty?
+      puts 'Please, create a MUSIC ALBUM. [Press ENTER to continue]'
+    else
+      puts 'List of Music Albums:'.bold.black.on_light_yellow
+      puts '-----------------------------'.black.on_light_yellow
+      collection.each_with_index do |album, index|
+        next unless album.is_a?(MusicAlbum)
 
-      spotify_status = album.on_spotify ? 'Yes' : 'No'
-      puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
+        spotify_status = album.on_spotify ? 'Yes' : 'No'
+        puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
+      end
+      puts '-----------------------------'.black.on_light_yellow
+      puts '[Press ENTER to continue]'
     end
-    puts '-----------------------------'.black.on_light_yellow
-    puts '[Press ENTER to continue]'
     gets.chomp
-   end
   end
 end
