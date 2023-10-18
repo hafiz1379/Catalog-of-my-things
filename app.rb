@@ -47,17 +47,24 @@ class App
   def load_books_from_json(filename = 'json/books.json')
     return unless File.exist?(filename)
 
-    data = JSON.parse(File.read(filename))
-    data.each do |book_data|
-      book = Book.new(
-        id: book_data['id'],
-        title: book_data['title'], # Asegúrate de que esto esté en tus datos JSON
-        publisher: book_data['publisher'],
-        cover_state: book_data['cover_state'],
-        publish_date: book_data['publish_date'],
-        label: find_label_by_title(book_data['label'])
-      )
-      @books << book
+    
+    file = File.read(filename) 
+    puts file
+    unless file.nil? || file.empty?
+      data = JSON.parse(file)
+      unless data.empty?
+        data.each do |book_data|
+          book = Book.new(
+            id: book_data['id'],
+            title: book_data['title'], # Asegúrate de que esto esté en tus datos JSON
+            publisher: book_data['publisher'],
+            cover_state: book_data['cover_state'],
+            publish_date: book_data['publish_date'],
+            label: find_label_by_title(book_data['label'])
+          )
+          @books << book
+        end
+      end
     end
   end
 
