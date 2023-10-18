@@ -1,6 +1,7 @@
 module LabelModule
   def self.list_labels(labels)
     puts 'List of Labels:'
+    puts '-----------------------------'
     labels.each_with_index do |label, index|
       puts "#{index + 1}. Title: #{label.title}, Color: #{label.color}"
 
@@ -21,7 +22,9 @@ module LabelModule
         end
       end
     end
-    puts '------------------'
+    puts '-----------------------------'
+    puts '[Press ENTER to continue]'
+    gets.chomp
   end
 
   def self.add_label(labels)

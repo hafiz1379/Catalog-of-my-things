@@ -10,6 +10,7 @@ require_relative 'classes/music_album'
 require_relative 'classes/music/load_music_genre'
 require_relative 'classes/music/save_music_genre'
 require_relative 'modules/music_album_module'
+require_relative 'modules/commands_module'
 require 'date'
 
 class App
@@ -135,10 +136,16 @@ class App
 
   def list_all_genres
     puts 'The list is empty, please create a Genre!' if @genres.empty?
-    @genres.each_with_index do |genre, index|
-      puts "#{index + 1}. #{genre.name}"
+
+    unless @genres.empty?
+      puts '-----------------------------'
+      @genres.each_with_index do |genre, index|
+        puts "#{index + 1}. #{genre.name}"
+      end
+      puts '-----------------------------'
+      puts '[Press ENTER to continue]'
+      gets.chomp
     end
-    puts '------------------'
   end
 
   def add_game
@@ -146,15 +153,21 @@ class App
   end
 
   def list_all_games
+    Commands.clear_screen
     GameModule.list_all_games(@games)
+    Commands.clear_screen
   end
 
   def list_all_authors
+    Commands.clear_screen
     AuthorModule.list_all_authors(@authors)
+    Commands.clear_screen
   end
 
   def list_all_music_albums
+    Commands.clear_screen
     MusicAlbumModule.list_all_music_albums(@music_albums)
+    Commands.clear_screen
   end
 
   def add_music_album
@@ -163,10 +176,14 @@ class App
   end
 
   def list_all_books
+    Commands.clear_screen
     BookModule.list_books(@books)
+    Commands.clear_screen
   end
 
   def list_all_labels
+    Commands.clear_screen
     LabelModule.list_labels(@labels)
+    Commands.clear_screen
   end
 end

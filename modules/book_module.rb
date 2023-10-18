@@ -36,18 +36,18 @@ module BookModule
   end
 
   def self.input(prompt)
-    puts prompt
+    print prompt
     gets.chomp
   end
 
   def self.cover_state_input
-    puts "Enter the cover state: 1 for 'good', 2 for 'bad'"
+    puts 'Enter the cover state (1-Good, 2-Bad):'
     loop do
       choice = gets.chomp
       return 'good' if choice == '1'
       return 'bad' if choice == '2'
 
-      puts "Invalid input. Please enter 1 for 'good' or 2 for 'bad'."
+      puts 'Invalid input. Please enter (1-Good, 2-Bad).'
     end
   end
 
