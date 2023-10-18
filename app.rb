@@ -9,6 +9,7 @@ require_relative 'classes/genre'
 require_relative 'classes/music_album'
 require_relative 'classes/music/load_music_genre'
 require_relative 'classes/music/save_music_genre'
+require_relative 'modules/music_album_module'
 require 'date'
 
 class App
@@ -73,7 +74,6 @@ class App
 
   def initialize_collections
     @books = []
-    @music_albums = []
     @games = []
     @labels = initialize_labels
     @genres = []
@@ -154,43 +154,11 @@ class App
   end
 
   def list_all_music_albums
-    puts 'The list is empty, please create a Music Album!' if @music_albums.empty?
-
-    if !@music_albums.empty?
-      puts 'List of all music albums:'
-      puts '-----------------------------'
-      @music_albums.each_with_index do |album, index|
-        next unless album.is_a?(MusicAlbum)
-  
-        spotify_status = album.on_spotify ? 'Yes' : 'No'
-        puts "#{index + 1}. Published: #{album.published_date}, Archived: #{album.archivedtoo}, Spotify: #{spotify_status}"
-      end
-      puts '-----------------------------'
-      puts '[Press ENTER to continue]'
-      gets.chomp
-    end
+    MusicAlbumModule.list_all_music_albums(@music_albums)
   end
 
   def add_music_album
-    print 'Enter published date YYYY-MM-DD: '
-    date_input = gets.chomp
-    begin
-      published_date = Date.parse(date_input)
-      current_date = Date.today
-      difference = (current_date - published_date).to_i / 365
-
-      puts "The album was published #{difference} years ago"
-    rescue ArgumentError
-      puts 'invalid date format. Please enter the date in YYYY-MM-DD format'
-    end
-
-    print 'Is it on Spotify? (true/false): '
-    on_spotify = gets.chomp.downcase == 'true'
-    music_album = MusicAlbum.new(published_date: published_date, on_spotify: on_spotify)
-    music_albums << music_album
-
-    puts 'Music album added successfully!'
-    puts '------------------'
+    MusicAlbumModule.add_music_album(@music_albums)
     save_music_albums
   end
 
