@@ -28,7 +28,6 @@ module GameModule
   def self.list_all_games(collection)
     if collection.empty?
       puts 'Please, create a GAME. [Press ENTER to continue]'
-      gets.chomp
     else
       puts 'List of Games:'.bold.black.on_light_cyan
       puts '-----------------------------'.black.on_light_cyan
@@ -37,8 +36,8 @@ module GameModule
       end
       puts '-----------------------------'.black.on_light_cyan
       puts '[Press ENTER to continue]'
-      gets.chomp
     end
+    gets.chomp
   end
 
   def self.load_games_from_json(collection, filename = 'json/games.json')

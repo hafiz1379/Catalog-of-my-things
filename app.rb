@@ -107,22 +107,22 @@ class App
       Label.new('3', 'Gift', 'magenta')
     ]
   end
-  
+
   def render_ascii_art
     puts '
-    ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗             
-    ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝             
-    ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗               
-    ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝               
+    ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗
+    ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
+    ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗
+    ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝
     ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗    ██╗██╗██╗
      ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝    ╚═╝╚═╝╚═╝
-                                                                               
+
     '.green
     puts 'To start, pick an option from the list below (1-10):'.bold
     puts ''
   end
 
-  def display_menu    
+  def display_menu
     puts '1. Add Book               .'.bold.black.on_light_magenta
     puts '2. Add Music Album        .'.bold.black.on_light_yellow
     puts '3. Add Game               .'.bold.black.on_light_cyan
@@ -154,16 +154,16 @@ class App
   def list_all_genres
     puts 'The list is empty, please create a Genre!' if @genres.empty?
 
-    unless @genres.empty?
-      puts 'List of all genres:'.bold.black.on_light_yellow
-      puts '-----------------------------'.black.on_light_yellow
-      @genres.each_with_index do |genre, index|
-        puts "#{index + 1}. #{genre.name}"
-      end
-      puts '-----------------------------'.black.on_light_yellow
-      puts '[Press ENTER to continue]'
-      gets.chomp
+    return if @genres.empty?
+
+    puts 'List of all genres:'.bold.black.on_light_yellow
+    puts '-----------------------------'.black.on_light_yellow
+    @genres.each_with_index do |genre, index|
+      puts "#{index + 1}. #{genre.name}"
     end
+    puts '-----------------------------'.black.on_light_yellow
+    puts '[Press ENTER to continue]'
+    gets.chomp
   end
 
   def add_game
