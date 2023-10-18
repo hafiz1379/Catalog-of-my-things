@@ -8,6 +8,7 @@ module BookModule
            "Cover State: #{book.cover_state}, " \
            "Label: #{label_title}"
     end
+    puts '------------------'
   end
 
   def self.add_book(books, _genres, _authors, labels)
