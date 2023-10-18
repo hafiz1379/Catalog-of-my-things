@@ -1,3 +1,8 @@
+DROP DATABASE IF EXISTS catalog_of_my_things;
+DROP TABLE IF EXISTS Music_album, Game, Book, Item, Label, Genre, Author;
+
+CREATE DATABASE catalog_of_my_things;
+
 CREATE TABLE Genre (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL
