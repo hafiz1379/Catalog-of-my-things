@@ -43,3 +43,10 @@ CREATE TABLE Book (
     cover_state VARCHAR(50),
     FOREIGN KEY (item_id) REFERENCES Item(id)
 );
+
+CREATE TABLE Game (
+    item_id INT PRIMARY KEY,
+    multiplayer BIT NOT NULL,
+    last_played_at DATE NOT NULL,
+    FOREIGN KEY (item_id) REFERENCES Item(id)
+);
