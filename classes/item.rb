@@ -1,4 +1,5 @@
 require 'securerandom'
+require 'date'
 
 class Item
   attr_accessor :author, :label, :publish_date, :published_date
@@ -49,7 +50,7 @@ class Item
     return nil unless date_string
 
     begin
-      Date.strptime(date_string, '%d-%m-%Y')
+      Date.strptime(date_string, '%Y-%m-%d')
     rescue Date::Error
       # Silenciosamente establece la fecha de publicación a nil
       nil
